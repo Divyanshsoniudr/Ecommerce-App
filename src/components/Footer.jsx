@@ -22,10 +22,16 @@ const Left = styled.div`
   padding: 20px;
 `;
 
-const Logo = styled.h1``;
+const Logo = styled.img`
+  width: 240px;
+  height:120px;
+  margin: 0;
+  padding-bottom: 0;
+`;
 
 const Desc = styled.p`
   margin: 20px 0px;
+  text-align: justify;
 `;
 
 const SocialContainer = styled.div`
@@ -88,7 +94,7 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>DRIPSON.</Logo>
+      <Logo src ="https://i.ibb.co/t4t2JVq/2-removebg-preview.png"/>
         <Desc>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected

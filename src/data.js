@@ -27,16 +27,19 @@ export const sliderItems = [
       id: 1,
       img: "https://i.pinimg.com/originals/9c/30/2e/9c302e591fb5b4a6852abc8e98e796f5.jpg",
       title: "OVERSIZED TSHIRT!",
+      cat: "tshirt"
     },
     {
       id: 2,
       img: "https://img.fruugo.com/product/0/53/152733530_max.jpg",
       title: "TRACKPANTS",
+      cat: "trackpants"
     },
     {
       id: 3,
       img: "https://i.pinimg.com/originals/2d/c6/e8/2dc6e8e915a90e3847c2025fa72ff961.jpg",
       title: "LIGHT SHACKETS",
+      cat:"shackets"
     },
   ];
 

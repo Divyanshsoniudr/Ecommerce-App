@@ -37,6 +37,8 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = userLocation();
+  console.log(location.pathname.split("/"[2]))
   return (
     <Container>
       <Navbar />
