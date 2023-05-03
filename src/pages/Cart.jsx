@@ -4,6 +4,13 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import StripeCheckout from "react-stripe-checkout";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { userRequest } from "../requestMethods";
+
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 
@@ -154,6 +161,28 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state)=>state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useHistory()
+
+
+  const onToken = (token)=>{
+    setStripeToken(token);
+  };
+
+  useEffect(()=>{
+    const makeRequest = async () =>{
+      try{
+        const res = await userRequest.post("/checkout/payment",{
+          tokenId : stripeToken.id ,
+          amount: cart.total * 100,
+        });
+        history.push("/success",{data:res.data});
+      }catch{}
+    };
+    stripeToken && makeRequest();
+
+  },[stripeToken, cart.total, history]);
   return (
     <Container>
       <Navbar />
@@ -170,31 +199,35 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
+            {Cart.products.map(products=>(
+
+              <Product>
+            
               <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
+                <Image src= {products.img} />
                 <Details>
                   <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
+                    <b>Product:</b> {Product.title}
                   </ProductName>
                   <ProductId>
-                    <b>ID:</b> 93813718293
+                    <b>ID:</b> {products._id}
                   </ProductId>
-                  <ProductColor color="black" />
+                  <ProductColor color={products.color} />
                   <ProductSize>
-                    <b>Size:</b> 37.5
+                    <b>Size:</b> {products.size}
                   </ProductSize>
                 </Details>
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
                   <Add />
-                  <ProductAmount>2</ProductAmount>
+                  <ProductAmount>{products.quantity}</ProductAmount>
                   <Remove />
                 </ProductAmountContainer>
-                <ProductPrice>Rs. 999</ProductPrice>
+                <ProductPrice>{products.price*products.quantity}</ProductPrice>
               </PriceDetail>
             </Product>
+            ))}
             <Hr />
             <Product>
               <ProductDetail>
@@ -226,7 +259,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 1468</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -238,8 +271,18 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>Rs. 1468</SummaryItemPrice>
+              <SummaryItemPrice>Rs. {cart.total}</SummaryItemPrice>
             </SummaryItem>
+            <StripeCheckout
+              name="DRIPSON"
+              image= "https://avatars.githubusercontent.com/u/1486366?v=4"
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount= {cart.total*100}
+              token= {onToken}
+              stripeKey={KEY}
+            >
             <Button>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>

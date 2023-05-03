@@ -9,7 +9,7 @@ import Cart from "./pages/Cart";
 
 
 const App = () => {
-  const  user = true
+  const  user = useSelector((state)=> state.user.currentUser);
   return (
     <BrowserRouter>
       <Switch>
@@ -24,6 +24,9 @@ const App = () => {
         </Route>
         <Route path="/cart">
           <Cart />
+        </Route>
+        <Route path="/success">
+          <Success />
         </Route>
         <Route path="/login">
         {user ? <Redirect to= "/"/> : <Login/>}
