@@ -8,7 +8,7 @@ import StripeCheckout from "react-stripe-checkout";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-
+import {useNavigate} from "react-router-dom";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -163,7 +163,7 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state)=>state.cart);
   const [stripeToken, setStripeToken] = useState(null);
-  const history = useHistory()
+  const history = useNavigate()
 
 
   const onToken = (token)=>{
@@ -236,14 +236,7 @@ const Cart = () => {
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>Rs. 95.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>Rs. -95.90</SummaryItemPrice>
-            </SummaryItem>
+
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>Rs. {cart.total}</SummaryItemPrice>

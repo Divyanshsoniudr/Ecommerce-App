@@ -1,10 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 
 const KEY = "pk_test_51MydEYSHb0RMRFV6EYRUSeAekxcEWGodq9KWYtxTIrTS3jZelxwwGsRwltsRm1mpArseaD53VYdiGfcSPfaww0kz00POfRxIp5"
 const Pay = () => {
 
     const [stripeToken, setStripeToken]= useState(null);
-    const history = useHistory()
+    const history = useNavigate()
 
 
     const onToken = (token)=> {

@@ -1,13 +1,13 @@
 import {useLocation } from "react-router"
 
 const Success = () => {
-  const location = userLocation()
+  const location = useLocation()
 
   return (
       <div>
         Successfull
       </div>
   )
-}
+};
 
-export default Success
+export default Success;
